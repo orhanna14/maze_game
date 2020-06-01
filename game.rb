@@ -5,6 +5,7 @@ require_relative "key_room"
 require_relative "riddle_room"
 require_relative "extra_loot_room"
 require_relative "boss_room"
+require_relative "game_map"
 
 class GameEngine
   attr_reader :stdin, :stdout
@@ -21,29 +22,15 @@ class GameEngine
   def run
     while playing
       enter_room
-      navigate(current_room)
+      navigate
     end
   end
 
   def enter_room
-    if current_room == 'starting room'
-      starting_room.enter
-    elsif current_room == 'lizalfos room'
-      lizalfos_room.enter
-    elsif current_room == 'koi pond room'
-      koi_pond_room.enter
-    elsif current_room == 'key room'
-      key_room.enter
-    elsif current_room == 'riddle room'
-      riddle_room.enter
-    elsif current_room == 'extra loot room'
-      extra_loot_room.enter
-    elsif current_room == 'boss room'
-      boss_room.enter
-    end
+    game_map.enter
   end
 
-  def navigate(current_room)
+  def navigate
     if current_room == 'starting room'
       if items.include?('boss key')
         stdout.puts('You use the large key to open the large door ahead of you.')
@@ -143,32 +130,8 @@ class GameEngine
   end
 
   private
-  def starting_room
-    StartingRoom.new(stdout)
-  end
-
-  def lizalfos_room
-    LizalfosRoom.new(stdout)
-  end
-
-  def koi_pond_room
-    KoiPondRoom.new(stdout)
-  end
-
-  def riddle_room
-    RiddleRoom.new(stdout)
-  end
-
-  def key_room
-    KeyRoom.new(stdout)
-  end
-
-  def extra_loot_room
-    ExtraLootRoom.new(stdout)
-  end
-  
-  def boss_room
-    BossRoom.new(stdout)
+  def game_map
+    GameMap.new(stdout, current_room)
   end
 end
 
