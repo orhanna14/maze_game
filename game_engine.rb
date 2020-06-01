@@ -1,7 +1,7 @@
 require_relative "game_map"
 
 class GameEngine
-  attr_reader :stdin, :stdout
+  attr_reader :stdin, :stdout, :game_map
   attr_accessor :current_room, :playing, :items
 
   def initialize(stdin, stdout, current_room = 'starting room')
@@ -10,6 +10,7 @@ class GameEngine
     @current_room = current_room
     @playing = true
     @items = []
+    @game_map = GameMap.new(stdout)
   end
 
   def run
@@ -20,7 +21,7 @@ class GameEngine
   end
 
   def enter_room
-    game_map.enter
+    game_map.enter(current_room)
   end
 
   def navigate
@@ -121,11 +122,4 @@ class GameEngine
   def add_to_items(item)
     @items = items.push(item)
   end
-
-  private
-  def game_map
-    GameMap.new(stdout, current_room)
-  end
 end
-
-GameEngine.new($stdin, $stdout).run

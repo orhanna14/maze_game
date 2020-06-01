@@ -9,12 +9,11 @@ require_relative "boss_room"
 class GameMap
   attr_reader :stdout, :current_room
 
-  def initialize(stdout, current_room)
+  def initialize(stdout)
     @stdout = stdout
-    @current_room = current_room
   end
 
-  def enter
+  def enter(current_room)
     if current_room == 'starting room'
       starting_room.enter
     elsif current_room == 'lizalfos room'
