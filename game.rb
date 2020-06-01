@@ -1,3 +1,11 @@
+require_relative "starting_room"
+require_relative "lizalfos_room"
+require_relative "koi_pond_room"
+require_relative "key_room"
+require_relative "riddle_room"
+require_relative "extra_loot_room"
+require_relative "boss_room"
+
 class GameEngine
   attr_reader :stdin, :stdout
   attr_accessor :current_room, :playing, :items
@@ -13,41 +21,29 @@ class GameEngine
   def run
     while playing
       enter_room
-      player_makes_a_decision(current_room)
+      navigate(current_room)
     end
   end
 
   def enter_room
     if current_room == 'starting room'
-      stdout.puts("You've entered the dragon's fortress. You are equipped with a sword and shield. You see a door to your left and a door to your right. Neither of them appear to be locked. You also see a door ahead of you that has a big lock on it. Which way do you go?")
+      starting_room.enter
     elsif current_room == 'lizalfos room'
-      stdout.puts("You've entered the lizalfos room. The door behind you and the door on the other side of the room locks with large metal bars that come down from the ceiling. Do you fight the lizalfos? Yes or no.")
+      lizalfos_room.enter
     elsif current_room == 'koi pond room'
-      stdout.puts("You've entered the koi pond room. There is a door on the other side of the room that is locked.")
+      koi_pond_room.enter
     elsif current_room == 'key room'
-      stdout.puts("Hurray, a key has appeared! You put it in your pocket. The only way to go is back the way you came.")
+      key_room.enter
     elsif current_room == 'riddle room'
-      stdout.puts("You've entered the riddle room. There is an ancient invention, still used in some parts of the world today, that allows people to see through walls. What is it?")
+      riddle_room.enter
     elsif current_room == 'extra loot room'
-      stdout.puts("You've found some extra loot!")
+      extra_loot_room.enter
     elsif current_room == 'boss room'
-      stdout.puts("You've made it to the boss room. You come in swinging your sword for a surprise attack. The dragon is caught off guard and you slice its leg. It roars back at you with fire brewing in the back of its throat.")
+      boss_room.enter
     end
   end
 
-  def set_current_room(current_room)
-    @current_room = current_room
-  end
-
-  def end_game(playing)
-    @playing = playing
-  end
-
-  def add_to_items(item)
-    @items = items.push(item)
-  end
-
-  def player_makes_a_decision(current_room)
+  def navigate(current_room)
     if current_room == 'starting room'
       if items.include?('boss key')
         stdout.puts('You use the large key to open the large door ahead of you.')
@@ -132,6 +128,47 @@ class GameEngine
             end_game(false)
           end
     end
+  end
+
+  def set_current_room(current_room)
+    @current_room = current_room
+  end
+
+  def end_game(playing)
+    @playing = playing
+  end
+
+  def add_to_items(item)
+    @items = items.push(item)
+  end
+
+  private
+  def starting_room
+    StartingRoom.new(stdout)
+  end
+
+  def lizalfos_room
+    LizalfosRoom.new(stdout)
+  end
+
+  def koi_pond_room
+    KoiPondRoom.new(stdout)
+  end
+
+  def riddle_room
+    RiddleRoom.new(stdout)
+  end
+
+  def key_room
+    KeyRoom.new(stdout)
+  end
+
+  def extra_loot_room
+    ExtraLootRoom.new(stdout)
+  end
+  
+  def boss_room
+    BossRoom.new(stdout)
   end
 end
 
