@@ -1,10 +1,3 @@
-require_relative "starting_room"
-require_relative "lizalfos_room"
-require_relative "koi_pond_room"
-require_relative "key_room"
-require_relative "riddle_room"
-require_relative "extra_loot_room"
-require_relative "boss_room"
 require_relative "game_map"
 
 class GameEngine
