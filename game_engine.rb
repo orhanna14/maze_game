@@ -31,19 +31,10 @@ class GameEngine
       set_current_room(game_map.navigate(current_room, items))
     elsif current_room == 'key room'
       add_to_items('small key')
-      stdout.puts("Do you want to go back to the starting room? Yes or no.")
-      direction = get_user_input
-      if direction == 'yes'
-        set_current_room('starting room')
-      else
-        stdout.puts("You must be paranoid. You lost your mind in the riddle room. You lose")
-        set_current_room('end game')
-      end
+      set_current_room(game_map.navigate(current_room, items))
     elsif current_room == 'extra loot room'
-      add_to_items('extra loot')
-      stdout.puts("Along with extra loot, you find a large key that you put in your pocket. You go back to the starting room.")
-      add_to_items('boss key')
-      set_current_room('starting room')
+      add_to_items('extra loot', 'boss key')
+      set_current_room(game_map.navigate(current_room, items))
     end
   end
 

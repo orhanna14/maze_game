@@ -20,6 +20,7 @@ class LizalfosRoom
         game_over
       else
         stdout.puts("Please enter yes or no.")
+        'lizalfos room'
       end
   end
 
@@ -32,6 +33,7 @@ class LizalfosRoom
         'starting room'
       else
         stdout.puts("Please enter forward or back.")
+        'lizalfos room'
       end
   end
 

@@ -44,7 +44,7 @@ class GameMap
   end
 
   def key_room
-    KeyRoom.new(stdout)
+    KeyRoom.new(stdout, stdin)
   end
 
   def extra_loot_room
