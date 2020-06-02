@@ -13,7 +13,7 @@ class KeyRoom
   end
 
   def navigate(items)
-    #add_to_items('small key')
+    add_to_items(items, 'small key')
     stdout.puts("Do you want to go back to the starting room? Yes or no.")
     direction = get_user_input
     if direction == 'yes'
