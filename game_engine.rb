@@ -10,7 +10,7 @@ class GameEngine
     @current_room = current_room
     @playing = true
     @items = []
-    @game_map = GameMap.new(stdout)
+    @game_map = GameMap.new(stdout, stdin)
   end
 
   def run
@@ -26,24 +26,12 @@ class GameEngine
 
   def navigate
     if current_room == 'starting room'
-      if items.include?('boss key')
-        stdout.puts('You use the large key to open the large door ahead of you.')
-        set_current_room('boss room')
-      else
-        direction = stdin.gets.chomp
-        if direction == 'left'
-          set_current_room('lizalfos room')
-        elsif direction == 'right'
-          set_current_room('koi pond room')
-        else
-          stdout.puts("Please enter left or right.")
-        end
-      end
-      elsif current_room == 'lizalfos room'
-        fight = stdin.gets.chomp
+      set_current_room(game_map.navigate(items))
+    elsif current_room == 'lizalfos room'
+        fight = get_user_input
         if fight == 'yes'
           stdout.puts("You've defeated the Lizalfos! The metal bars are pulled up through the ceiling, allowing you to go back the way you came, or forward to another room. Which way do you go?")
-          direction = stdin.gets.chomp
+          direction = get_user_input
           if direction == 'forward'
             set_current_room('riddle room')
           elsif direction == 'back'
@@ -58,7 +46,7 @@ class GameEngine
           stdout.puts("Please enter yes or no.")
         end
       elsif current_room == 'riddle room'
-        answer = stdin.gets.chomp
+        answer = get_user_input
         if answer == 'a window'
           set_current_room('key room')
         else
@@ -68,7 +56,7 @@ class GameEngine
       elsif current_room == 'key room'
         add_to_items('small key')
         stdout.puts("Do you want to go back to the starting room? Yes or no.")
-        direction = stdin.gets.chomp
+        direction = get_user_input
         if direction == 'yes'
           set_current_room('starting room')
         else
@@ -77,7 +65,7 @@ class GameEngine
         end
       elsif current_room == 'koi pond room'
         stdout.puts("Do you have a key you can use?")
-        truth = stdin.gets.chomp
+        truth = get_user_input
           if truth == 'yes'
             if items.include?('small key')
               stdout.puts("You are able to open the door!")
@@ -97,7 +85,7 @@ class GameEngine
           set_current_room('starting room')
         elsif current_room == 'boss room'
           stdout.puts("Do you: dodge and strike or cry?")
-          fight = stdin.gets.chomp
+          fight = get_user_input
           if fight == 'dodge and strike'
             stdout.puts("You've defeated the boss! Congratulations!")
           end_game(false)
@@ -121,5 +109,9 @@ class GameEngine
 
   def add_to_items(item)
     @items = items.push(item)
+  end
+
+  def get_user_input
+    stdin.gets.chomp
   end
 end
