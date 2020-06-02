@@ -1,4 +1,5 @@
 require_relative "game_map"
+require_relative "helper_methods"
 
 class GameEngine
   attr_reader :stdin, :stdout, :game_map
@@ -25,93 +26,37 @@ class GameEngine
   end
 
   def navigate
-    if current_room == 'starting room'
+    if current_room == 'starting room' || current_room == 'lizalfos room' || current_room == 'riddle room' || current_room == 'koi pond room' || current_room == 'boss room'
       set_current_room(game_map.navigate(current_room, items))
-    elsif current_room == 'lizalfos room'
-        fight = get_user_input
-        if fight == 'yes'
-          stdout.puts("You've defeated the Lizalfos! The metal bars are pulled up through the ceiling, allowing you to go back the way you came, or forward to another room. Which way do you go?")
-          direction = get_user_input
-          if direction == 'forward'
-            set_current_room('riddle room')
-          elsif direction == 'back'
-            set_current_room('starting room')
-          else
-            stdout.puts("Please enter forward or back.")
-          end
-        elsif fight == 'no'
-          stdout.puts("The Lizalfos have defeated you! You lose.")
-          end_game(false)
-        else
-          stdout.puts("Please enter yes or no.")
-        end
-      elsif current_room == 'riddle room'
-        answer = get_user_input
-        if answer == 'a window'
-          set_current_room('key room')
-        else
-          stdout.puts("Wrong. A trap door opens up beneath you and you fall to your death.")
-          end_game(false)
-        end
-      elsif current_room == 'key room'
-        add_to_items('small key')
-        stdout.puts("Do you want to go back to the starting room? Yes or no.")
-        direction = get_user_input
-        if direction == 'yes'
-          set_current_room('starting room')
-        else
-          stdout.puts("You must be paranoid. You lost your mind in the riddle room. You lose")
-          end_game(false)
-        end
-      elsif current_room == 'koi pond room'
-        stdout.puts("Do you have a key you can use?")
-        truth = get_user_input
-          if truth == 'yes'
-            if items.include?('small key')
-              stdout.puts("You are able to open the door!")
-              set_current_room('extra loot room')
-            else
-              stdout.puts("Dragons can smell lies. A trap door opens below you and you fall to your death.")
-              end_game(false)
-            end
-          elsif truth == 'no'
-            stdout.puts('Looks like you need to find a key first..you go back to the starting room')
-            set_current_room('starting room')
-          end
-        elsif current_room == 'extra loot room'
-          add_to_items('extra loot')
-          stdout.puts("Along with extra loot, you find a large key that you put in your pocket. You go back to the starting room.")
-          add_to_items('boss key')
-          set_current_room('starting room')
-        elsif current_room == 'boss room'
-          stdout.puts("Do you: dodge and strike or cry?")
-          fight = get_user_input
-          if fight == 'dodge and strike'
-            stdout.puts("You've defeated the boss! Congratulations!")
-          end_game(false)
-          elsif fight == 'cry'
-            stdout.puts("You get a good cry in and melt the dragon's heart. You hug it out")
-          end_game(false)
-          else 
-            stdout.puts("You lose")
-            end_game(false)
-          end
+    elsif current_room == 'key room'
+      add_to_items('small key')
+      stdout.puts("Do you want to go back to the starting room? Yes or no.")
+      direction = get_user_input
+      if direction == 'yes'
+        set_current_room('starting room')
+      else
+        stdout.puts("You must be paranoid. You lost your mind in the riddle room. You lose")
+        end_game?(false)
+      end
+    elsif current_room == 'extra loot room'
+      add_to_items('extra loot')
+      stdout.puts("Along with extra loot, you find a large key that you put in your pocket. You go back to the starting room.")
+      add_to_items('boss key')
+      set_current_room('starting room')
     end
   end
+
+ #If the game is over, set playing = false. 
 
   def set_current_room(current_room)
     @current_room = current_room
   end
 
-  def end_game(playing)
+  def end_game?(playing)
     @playing = playing
   end
 
   def add_to_items(item)
     @items = items.push(item)
-  end
-
-  def get_user_input
-    stdin.gets.chomp
   end
 end

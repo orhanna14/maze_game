@@ -12,7 +12,7 @@ class StartingRoom
     stdout.puts("You've entered the dragon's fortress. You are equipped with a sword and shield. You see a door to your left and a door to your right. Neither of them appear to be locked. You also see a door ahead of you that has a big lock on it.")
   end
 
-  def options(items)
+  def navigate(items)
     if items.include?('boss key')
       stdout.puts('You use the large key to open the large door ahead of you.')
       return 'boss room'
@@ -28,4 +28,5 @@ class StartingRoom
       end
     end
   end
+
 end

@@ -19,12 +19,12 @@ class GameMap
   end
 
   def navigate(current_room, items)
-    rooms[current_room].options(items)
+    rooms[current_room].navigate(items)
   end
 
   private
   def rooms
-    {'starting room' => starting_room, 'lizalfos room' => lizalfos_room, 'koi pond room' => koi_pond_room, 'key room' => key_room, 'riddle room' => riddle_room, 'extra loot room' => extra_loot_room, 'boss room' => boss_room }
+    {'starting room' => starting_room, 'lizalfos room' => lizalfos_room, 'koi pond room' => koi_pond_room, 'key room' => key_room, 'riddle room' => riddle_room, 'extra loot room' => extra_loot_room, 'boss room' => boss_room}
   end
 
   def starting_room
@@ -32,15 +32,15 @@ class GameMap
   end
 
   def lizalfos_room
-    LizalfosRoom.new(stdout)
+    LizalfosRoom.new(stdout, stdin)
   end
 
   def koi_pond_room
-    KoiPondRoom.new(stdout)
+    KoiPondRoom.new(stdout, stdin)
   end
 
   def riddle_room
-    RiddleRoom.new(stdout)
+    RiddleRoom.new(stdout, stdin)
   end
 
   def key_room
@@ -52,6 +52,7 @@ class GameMap
   end
   
   def boss_room
-    BossRoom.new(stdout)
+    BossRoom.new(stdout, stdin)
   end
+
 end
