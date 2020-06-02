@@ -7,45 +7,40 @@ require_relative "extra_loot_room"
 require_relative "boss_room"
 
 class GameMap
-  attr_reader :stdout, :current_room
+  attr_reader :stdout, :stdin, :current_room
 
-  def initialize(stdout)
+  def initialize(stdout, stdin)
     @stdout = stdout
+    @stdin = stdin
   end
 
   def enter(current_room)
-    if current_room == 'starting room'
-      starting_room.enter
-    elsif current_room == 'lizalfos room'
-      lizalfos_room.enter
-    elsif current_room == 'koi pond room'
-      koi_pond_room.enter
-    elsif current_room == 'key room'
-      key_room.enter
-    elsif current_room == 'riddle room'
-      riddle_room.enter
-    elsif current_room == 'extra loot room'
-      extra_loot_room.enter
-    elsif current_room == 'boss room'
-      boss_room.enter
-    end
+    rooms[current_room].enter
+  end
+
+  def navigate(current_room, items)
+    rooms[current_room].navigate(items)
   end
 
   private
+  def rooms
+    {'starting room' => starting_room, 'lizalfos room' => lizalfos_room, 'koi pond room' => koi_pond_room, 'key room' => key_room, 'riddle room' => riddle_room, 'extra loot room' => extra_loot_room, 'boss room' => boss_room}
+  end
+
   def starting_room
-    StartingRoom.new(stdout)
+    StartingRoom.new(stdout, stdin)
   end
 
   def lizalfos_room
-    LizalfosRoom.new(stdout)
+    LizalfosRoom.new(stdout, stdin)
   end
 
   def koi_pond_room
-    KoiPondRoom.new(stdout)
+    KoiPondRoom.new(stdout, stdin)
   end
 
   def riddle_room
-    RiddleRoom.new(stdout)
+    RiddleRoom.new(stdout, stdin)
   end
 
   def key_room
@@ -57,6 +52,7 @@ class GameMap
   end
   
   def boss_room
-    BossRoom.new(stdout)
+    BossRoom.new(stdout, stdin)
   end
+
 end
