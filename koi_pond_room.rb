@@ -24,7 +24,7 @@ class KoiPondRoom
 
   def need_a_key
     stdout.puts('Looks like you need to find a key first..you go back to the starting room')
-    return 'starting room'
+    'starting room'
   end
 
   def have_a_key?
@@ -33,7 +33,7 @@ class KoiPondRoom
       return 'extra loot room'
     else
       stdout.puts("Dragons can smell lies. A trap door opens below you and you fall to your death.")
-      #end_game(false)
+      'end game'
     end
   end
 end

@@ -18,6 +18,7 @@ class GameEngine
     while playing
       enter_room
       navigate
+      game_over?
     end
   end
 
@@ -36,7 +37,7 @@ class GameEngine
         set_current_room('starting room')
       else
         stdout.puts("You must be paranoid. You lost your mind in the riddle room. You lose")
-        end_game?(false)
+        set_current_room('end game')
       end
     elsif current_room == 'extra loot room'
       add_to_items('extra loot')
@@ -46,14 +47,14 @@ class GameEngine
     end
   end
 
- #If the game is over, set playing = false. 
-
   def set_current_room(current_room)
     @current_room = current_room
   end
 
-  def end_game?(playing)
-    @playing = playing
+  def game_over?
+    if current_room == 'end game'
+      @playing = false
+    end
   end
 
   def add_to_items(item)

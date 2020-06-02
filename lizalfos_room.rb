@@ -37,7 +37,7 @@ class LizalfosRoom
 
   def game_over
     stdout.puts("The Lizalfos have defeated you! You lose.")
-    #end the game
+    'end game'
   end
 
 end
