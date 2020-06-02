@@ -27,15 +27,7 @@ class GameEngine
   end
 
   def navigate
-    if current_room == 'starting room' || current_room == 'lizalfos room' || current_room == 'riddle room' || current_room == 'koi pond room' || current_room == 'boss room'
-      set_current_room(game_map.navigate(current_room, items))
-    elsif current_room == 'key room'
-      add_to_items('small key')
-      set_current_room(game_map.navigate(current_room, items))
-    elsif current_room == 'extra loot room'
-      add_to_items('extra loot', 'boss key')
-      set_current_room(game_map.navigate(current_room, items))
-    end
+    set_current_room(game_map.navigate(current_room, items))
   end
 
   def set_current_room(current_room)
@@ -46,9 +38,5 @@ class GameEngine
     if current_room == 'end game'
       @playing = false
     end
-  end
-
-  def add_to_items(item)
-    @items = items.push(item)
   end
 end

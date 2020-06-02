@@ -25,6 +25,7 @@ class StartingRoom
         'koi pond room'
       else
         stdout.puts("Please enter left or right.")
+        'starting room'
       end
     end
   end
