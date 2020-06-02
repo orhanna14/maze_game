@@ -26,7 +26,7 @@ class GameEngine
 
   def navigate
     if current_room == 'starting room'
-      set_current_room(game_map.navigate(items))
+      set_current_room(game_map.navigate(current_room, items))
     elsif current_room == 'lizalfos room'
         fight = get_user_input
         if fight == 'yes'

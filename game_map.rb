@@ -18,15 +18,15 @@ class GameMap
     rooms[current_room].enter
   end
 
-  def navigate(items)
-    starting_room.options(items)
+  def navigate(current_room, items)
+    rooms[current_room].options(items)
   end
 
   private
   def rooms
     {'starting room' => starting_room, 'lizalfos room' => lizalfos_room, 'koi pond room' => koi_pond_room, 'key room' => key_room, 'riddle room' => riddle_room, 'extra loot room' => extra_loot_room, 'boss room' => boss_room }
   end
-  
+
   def starting_room
     StartingRoom.new(stdout, stdin)
   end
