@@ -26,16 +26,16 @@ class BossRoom
 
   def game_over_defeat
     stdout.puts("You've defeated the boss! Congratulations!")
-    # end_game(false)
+    'end game'
   end
 
   def game_over_cry
     stdout.puts("You get a good cry in and melt the dragon's heart. You hug it out")
-    # end_game(false)
+    'end game'
   end
 
   def game_over
     stdout.puts("You lose")
-    # end_game(false)
+    'end game'
   end
 end

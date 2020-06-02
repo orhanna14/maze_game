@@ -23,6 +23,6 @@ class RiddleRoom
 
   def game_over
     stdout.puts("Wrong. A trap door opens up beneath you and you fall to your death.")
-    #end_game(false)
+    'end game'
   end
 end
